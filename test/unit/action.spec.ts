@@ -38,7 +38,7 @@ describe("Action", () => {
 
       const record = model.getRecordWithId(1)!;
 
-      expect(Action.addRecordToArgs({ test: 2 }, model, record)).toEqual({
+      expect(Action.addRecordToArgs({ test: 2 }, model, record, "", "")).toEqual({
         post: {
           id: 1,
           content: "GraphQL is so nice!",
