@@ -21,6 +21,7 @@ describe("QueryBuilder", () => {
       const model = context.getModel("post");
       let args = QueryBuilder.buildArguments(
         model,
+        "",
         {
           content: "Foo Bar",
           title: "Example",
@@ -45,6 +46,7 @@ describe("QueryBuilder", () => {
 
       args = QueryBuilder.buildArguments(
         model,
+        "",
         {
           id: 5,
           itemIds: [1, 2, 4, 9, 68]
@@ -62,6 +64,7 @@ describe("QueryBuilder", () => {
       const model = context.getModel("post");
       let args = QueryBuilder.buildArguments(
         model,
+        "",
         {
           content: "Foo Bar",
           title: "Example",
@@ -91,6 +94,7 @@ describe("QueryBuilder", () => {
       const model = context.getModel("post");
       let args = QueryBuilder.buildArguments(
         model,
+        "",
         {
           content: "Foo Bar",
           title: "Example",
@@ -111,7 +115,7 @@ describe("QueryBuilder", () => {
 
   describe(".buildRelationsQuery", () => {
     test("generates query fields for all relations", () => {
-      const fields = QueryBuilder.buildRelationsQuery(context.getModel("post"), ["post"]);
+      const fields = QueryBuilder.buildRelationsQuery(context.getModel("post"), ["post"], "");
       const query = prettify(`query test { ${fields} }`).trim();
 
       expect(query).toEqual(
@@ -159,7 +163,11 @@ query test {
     });
 
     test("respects nested categories", () => {
-      const fields = QueryBuilder.buildRelationsQuery(context.getModel("category"), ["category"]);
+      const fields = QueryBuilder.buildRelationsQuery(
+        context.getModel("category"),
+        ["category"],
+        ""
+      );
       const query = prettify(`query test { ${fields} }`).trim();
 
       expect(query).toEqual(
@@ -195,6 +203,7 @@ query test {
     test("generates query fields for all model fields and relations", () => {
       let query = QueryBuilder.buildField(
         context.getModel("user"),
+        "",
         true,
         { age: 32 },
         undefined,
@@ -230,6 +239,7 @@ query users {
 
         let query = QueryBuilder.buildField(
           context.getModel("user"),
+          "",
           true,
           { age: 32 },
           undefined,
@@ -264,6 +274,7 @@ query users {
 
         let query = QueryBuilder.buildField(
           context.getModel("user"),
+          "",
           true,
           { age: 32 },
           undefined,
@@ -300,6 +311,7 @@ query users {
 
         let query = QueryBuilder.buildField(
           context.getModel("user"),
+          "",
           true,
           { age: 32 },
           undefined,
@@ -336,6 +348,7 @@ query users {
       let rawQuery = QueryBuilder.buildQuery(
         "query",
         context.getModel("post"),
+        "fetch",
         undefined,
         args,
         true,
@@ -399,7 +412,14 @@ query Posts($title: String!) {
     test("generates a complete create mutation query for a model", () => {
       const variables = { post: { id: 15, authorId: 2, title: "test", content: "even more test" } };
       let post = context.getModel("post");
-      let rawQuery = QueryBuilder.buildQuery("mutation", post, "createPost", variables, false);
+      let rawQuery = QueryBuilder.buildQuery(
+        "mutation",
+        post,
+        "create",
+        "createPost",
+        variables,
+        false
+      );
       let query: string = prettify(rawQuery.loc!.source.body);
 
       expect(query).toEqual(
@@ -459,7 +479,14 @@ mutation CreatePost($post: PostInput!) {
         post: { id: 2, authorId: 1, title: "test", content: "Even more test" }
       };
       let post = context.getModel("post");
-      let rawQuery = QueryBuilder.buildQuery("mutation", post, "updatePost", variables, false);
+      let rawQuery = QueryBuilder.buildQuery(
+        "mutation",
+        post,
+        "update",
+        "updatePost",
+        variables,
+        false
+      );
       let query: string = prettify(rawQuery.loc!.source.body);
 
       expect(query).toEqual(
@@ -514,9 +541,15 @@ mutation UpdatePost($id: ID!, $post: PostInput!) {
     });
 
     test("generates a complete delete mutation query for a model", () => {
-      let rawQuery = QueryBuilder.buildQuery("mutation", context.getModel("user"), "deleteUser", {
-        id: 15
-      });
+      let rawQuery = QueryBuilder.buildQuery(
+        "mutation",
+        context.getModel("user"),
+        "delete",
+        "deleteUser",
+        {
+          id: 15
+        }
+      );
       let query: string = prettify(rawQuery.loc!.source.body);
 
       expect(query).toEqual(
@@ -543,7 +576,14 @@ mutation DeleteUser($id: ID!) {
 
       const variables = { post: { id: 15, authorId: 2, title: "test", content: "even more test" } };
       let post = context.getModel("post");
-      let rawQuery = QueryBuilder.buildQuery("mutation", post, "createPost", variables, false);
+      let rawQuery = QueryBuilder.buildQuery(
+        "mutation",
+        post,
+        "create",
+        "createPost",
+        variables,
+        false
+      );
       let query: string = prettify(rawQuery.loc!.source.body);
 
       expect(query).toEqual(
