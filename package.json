@@ -14,7 +14,7 @@
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "build": "node scripts/build.js && npm run build:docs",
     "build:docs": "vuepress build docs",
-    "start": "rollup -c rollup.config.ts -w",
+    "start": "rollup -c rollup.config.js -w",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
