@@ -15403,8 +15403,13 @@ var Action = /** @class */ (function () {
                         return [4 /*yield*/, context.loadSchema()];
                     case 1:
                         schema = _b.sent();
+                        Object.keys(variables)
+                            .filter(function (key) { return !Context.getInstance().adapter.includeInputKey(model, key, action, name); })
+                            .forEach(function (key) { return delete variables[key]; });
                         multiple = Schema.returnsConnection(schema.getMutation(name));
                         query = QueryBuilder.buildQuery("mutation", model, action, name, variables, multiple);
+                        // Send GraphQL Mutation
+                        variables = Context.getInstance().adapter.mapInputKeys(model, variables, action, name);
                         return [4 /*yield*/, context.apollo.request(model, query, variables, true)];
                     case 2:
                         newData = _b.sent();
@@ -15852,15 +15857,15 @@ var Push = /** @class */ (function (_super) {
         var state = _a.state, dispatch = _a.dispatch;
         var data = _b.data, args = _b.args;
         return __awaiter(this, void 0, void 0, function () {
-            var model_1, mutationName_1, action_1, mockReturnValue;
+            var model, mutationName, action, mockReturnValue;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         if (!data) return [3 /*break*/, 2];
-                        model_1 = this.getModelFromState(state);
-                        mutationName_1 = Context.getInstance().adapter.getNameForPush(model_1);
-                        action_1 = "push";
-                        mockReturnValue = model_1.$mockHook("push", {
+                        model = this.getModelFromState(state);
+                        mutationName = Context.getInstance().adapter.getNameForPush(model);
+                        action = "push";
+                        mockReturnValue = model.$mockHook("push", {
                             data: data,
                             args: args || {}
                         });
@@ -15873,13 +15878,9 @@ var Push = /** @class */ (function (_super) {
                         // Arguments
                         _c.sent();
                         args = this.prepareArgs(args, data.id);
-                        this.addRecordToArgs(args, model_1, data, action_1, mutationName_1);
-                        args = Context.getInstance().adapter.mapInputKeys(model_1, args, action_1, mutationName_1);
-                        Object.keys(args)
-                            .filter(function (key) { return !Context.getInstance().adapter.includeInputKey(model_1, key, action_1, mutationName_1); })
-                            .forEach(function (key) { return delete args[key]; });
+                        this.addRecordToArgs(args, model, data, action, mutationName);
                         // Send the mutation
-                        return [2 /*return*/, Action.mutation(mutationName_1, args, dispatch, model_1, action_1)];
+                        return [2 /*return*/, Action.mutation(mutationName, args, dispatch, model, action)];
                     case 2: 
                     /* istanbul ignore next */
                     throw new Error("The persist action requires the 'data' to be set");

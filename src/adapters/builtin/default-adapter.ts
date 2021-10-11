@@ -1,7 +1,7 @@
 import Adapter, { ConnectionMode, ArgumentMode } from "../adapter";
 import Model from "../../orm/model";
 import { upcaseFirstLetter } from "../../support/utils";
-import { Arguments } from "../../support/interfaces";
+import { Data } from "../../support/interfaces";
 
 export default class DefaultAdapter implements Adapter {
   getRootMutationName(): string {
@@ -34,7 +34,7 @@ export default class DefaultAdapter implements Adapter {
   includeInputKey(model: Model, key: string, action?: string, mutation?: string): boolean {
     return true;
   }
-  mapInputKeys(model: Model, args: Arguments, action?: string, mutation?: string): Arguments {
+  mapInputKeys(model: Model, args: Data, action?: string, mutation?: string): Data {
     return args;
   }
 

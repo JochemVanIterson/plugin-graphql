@@ -51,14 +51,6 @@ export default class Push extends Action {
       args = this.prepareArgs(args, data.id);
       this.addRecordToArgs(args, model, data, action, mutationName);
 
-      args = Context.getInstance().adapter.mapInputKeys(model, args, action, mutationName);
-
-      Object.keys(args)
-        .filter(
-          key => !Context.getInstance().adapter.includeInputKey(model, key, action, mutationName)
-        )
-        .forEach(key => delete args![key]);
-
       // Send the mutation
       return Action.mutation(mutationName, args as Data, dispatch!, model, action);
     } else {
