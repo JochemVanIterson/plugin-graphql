@@ -17,4 +17,5 @@ export default class DefaultAdapter implements Adapter {
     getNameForPush(model: Model): string;
     prepareSchemaTypeName(name: string): string;
     getCustomQuery(model: Model, action: string, name: string, params: string, fields: string): string;
+    parseQueryResult(model: Model, newData: Data, action: string, name: string): Data;
 }

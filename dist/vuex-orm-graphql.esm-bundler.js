@@ -14732,6 +14732,9 @@ class DefaultAdapter {
         }
       `;
     }
+    parseQueryResult(model, newData, action, name) {
+        return newData;
+    }
 }
 
 var introspectionQuery = `
@@ -15397,6 +15400,7 @@ class Action {
             // When this was not a destroy action, we get new data, which we should insert in the store
             if (name !== context.adapter.getNameForDestroy(model)) {
                 newData = newData[Object.keys(newData)[0]];
+                newData = Context.getInstance().adapter.parseQueryResult(model, newData, action, name);
                 // IDs as String cause terrible issues, so we convert them to integers.
                 newData.id = toPrimaryKey(newData.id);
                 const insertedData = await Store.insertData({ [model.pluralName]: newData }, dispatch);

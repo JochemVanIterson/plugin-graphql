@@ -49,6 +49,8 @@ export default class Action {
       if (name !== context.adapter.getNameForDestroy(model)) {
         newData = newData[Object.keys(newData)[0]];
 
+        newData = Context.getInstance().adapter.parseQueryResult(model, newData, action, name);
+
         // IDs as String cause terrible issues, so we convert them to integers.
         newData.id = toPrimaryKey(newData.id);
 

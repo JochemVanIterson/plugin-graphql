@@ -42,4 +42,6 @@ export default interface Adapter {
     params: string,
     fields: string
   ): string;
+
+  parseQueryResult(model: Model, newData: Data, action: string, name: string): Data;
 }

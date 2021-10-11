@@ -14791,6 +14791,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.getCustomQuery = function (model, action, name, params, fields) {
         return "\n        " + (name ? name : model.singularName) + params + " {\n          " + fields + "\n        }\n      ";
     };
+    DefaultAdapter.prototype.parseQueryResult = function (model, newData, action, name) {
+        return newData;
+    };
     return DefaultAdapter;
 }());
 
@@ -15415,6 +15418,7 @@ var Action = /** @class */ (function () {
                         newData = _b.sent();
                         if (!(name !== context.adapter.getNameForDestroy(model))) return [3 /*break*/, 4];
                         newData = newData[Object.keys(newData)[0]];
+                        newData = Context.getInstance().adapter.parseQueryResult(model, newData, action, name);
                         // IDs as String cause terrible issues, so we convert them to integers.
                         newData.id = toPrimaryKey(newData.id);
                         return [4 /*yield*/, Store.insertData((_a = {}, _a[model.pluralName] = newData, _a), dispatch)];

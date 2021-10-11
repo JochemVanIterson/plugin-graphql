@@ -71,4 +71,8 @@ export default class DefaultAdapter implements Adapter {
         }
       `;
   }
+
+  parseQueryResult(model: Model, newData: Data, action: string, name: string): Data {
+    return newData;
+  }
 }
