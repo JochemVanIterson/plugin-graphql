@@ -30,6 +30,9 @@ export default class DefaultAdapter implements Adapter {
   getInputTypeKey(model: Model, key: string, action?: string, mutation?: string): string {
     return `${key}`;
   }
+  includeInputKey(model: Model, key: string, action?: string, mutation?: string): boolean {
+    return true;
+  }
 
   getNameForDestroy(model: Model): string {
     return `delete${upcaseFirstLetter(model.singularName)}`;

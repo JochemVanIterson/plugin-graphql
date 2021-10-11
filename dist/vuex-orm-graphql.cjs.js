@@ -14767,6 +14767,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.getInputTypeKey = function (model, key, action, mutation) {
         return "" + key;
     };
+    DefaultAdapter.prototype.includeInputKey = function (model, key, action, mutation) {
+        return true;
+    };
     DefaultAdapter.prototype.getNameForDestroy = function (model) {
         return "delete" + upcaseFirstLetter(model.singularName);
     };
@@ -15139,6 +15142,8 @@ var QueryBuilder = /** @class */ (function () {
                 var isConnectionField = schemaField && Schema.getTypeNameOfField(schemaField).endsWith("Connection");
                 // Ignore null fields, ids and connections
                 if (value && !skipFieldDueId && !isConnectionField) {
+                    if (!context.adapter.includeInputKey(context.getModel(value.__type), key, action, field === null || field === void 0 ? void 0 : field.name))
+                        return;
                     var typeOrValue = "";
                     var inputTypeKey = key;
                     if (signature) {

@@ -14704,6 +14704,9 @@ class DefaultAdapter {
     getInputTypeKey(model, key, action, mutation) {
         return `${key}`;
     }
+    includeInputKey(model, key, action, mutation) {
+        return true;
+    }
     getNameForDestroy(model) {
         return `delete${upcaseFirstLetter(model.singularName)}`;
     }
@@ -15158,6 +15161,8 @@ class QueryBuilder {
                 const isConnectionField = schemaField && Schema.getTypeNameOfField(schemaField).endsWith("Connection");
                 // Ignore null fields, ids and connections
                 if (value && !skipFieldDueId && !isConnectionField) {
+                    if (!context.adapter.includeInputKey(context.getModel(value.__type), key, action, field === null || field === void 0 ? void 0 : field.name))
+                        return;
                     let typeOrValue = "";
                     let inputTypeKey = key;
                     if (signature) {

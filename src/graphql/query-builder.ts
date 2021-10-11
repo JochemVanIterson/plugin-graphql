@@ -217,6 +217,15 @@ export default class QueryBuilder {
 
         // Ignore null fields, ids and connections
         if (value && !skipFieldDueId && !isConnectionField) {
+          if (
+            !context.adapter.includeInputKey(
+              context.getModel(value.__type),
+              key,
+              action,
+              field?.name
+            )
+          )
+            return;
           let typeOrValue: any = "";
           let inputTypeKey: any = key;
 
