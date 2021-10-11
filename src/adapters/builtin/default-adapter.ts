@@ -27,8 +27,8 @@ export default class DefaultAdapter implements Adapter {
     return `${upcaseFirstLetter(model.singularName)}Input`;
   }
 
-  getInputTypeKey(model: Model, action?: string, mutation?: string): string {
-    return `${model.singularName}`;
+  getInputTypeKey(model: Model, key: string, action?: string, mutation?: string): string {
+    return `${key}`;
   }
 
   getNameForDestroy(model: Model): string {
