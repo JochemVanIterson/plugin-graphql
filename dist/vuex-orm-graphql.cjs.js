@@ -14764,6 +14764,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.getInputTypeName = function (model, action, mutation) {
         return upcaseFirstLetter(model.singularName) + "Input";
     };
+    DefaultAdapter.prototype.getInputTypeKey = function (model, action, mutation) {
+        return "" + model.singularName;
+    };
     DefaultAdapter.prototype.getNameForDestroy = function (model) {
         return "delete" + upcaseFirstLetter(model.singularName);
     };
@@ -15133,11 +15136,13 @@ var QueryBuilder = /** @class */ (function () {
                 // Ignore null fields, ids and connections
                 if (value && !skipFieldDueId && !isConnectionField) {
                     var typeOrValue = "";
+                    var inputTypeKey = key;
                     if (signature) {
                         if (isPlainObject(value) && value.__type) {
                             // Case 2 (User!)
                             typeOrValue =
                                 context.adapter.getInputTypeName(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name) + "!";
+                            inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name);
                         }
                         else if (value instanceof Array && field) {
                             var arg = QueryBuilder.findSchemaFieldForArgument(key, field, model, filter);
@@ -15523,7 +15528,7 @@ var Destroy = /** @class */ (function (_super) {
                         if (!id) return [3 /*break*/, 4];
                         model = this.getModelFromState(state);
                         mutationName = Context.getInstance().adapter.getNameForDestroy(model);
-                        action = 'destroy';
+                        action = "destroy";
                         mockReturnValue = model.$mockHook("destroy", { id: id });
                         if (!mockReturnValue) return [3 /*break*/, 2];
                         return [4 /*yield*/, Store.insertData(mockReturnValue, dispatch)];
@@ -15673,7 +15678,7 @@ var Mutate = /** @class */ (function (_super) {
                         if (!name) return [3 /*break*/, 2];
                         context = Context.getInstance();
                         model = this.getModelFromState(state);
-                        action = 'mutate';
+                        action = "mutate";
                         mockReturnValue = model.$mockHook("mutate", {
                             name: name,
                             args: args || {}

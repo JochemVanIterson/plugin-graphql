@@ -7,6 +7,7 @@ export default class DefaultAdapter implements Adapter {
     getArgumentMode(): ArgumentMode;
     getFilterTypeName(model: Model): string;
     getInputTypeName(model: Model, action?: string, mutation?: string): string;
+    getInputTypeKey(model: Model, action?: string, mutation?: string): string;
     getNameForDestroy(model: Model): string;
     getNameForFetch(model: Model, plural: boolean): string;
     getNameForPersist(model: Model): string;

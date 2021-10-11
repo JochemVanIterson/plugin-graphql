@@ -14701,6 +14701,9 @@ class DefaultAdapter {
     getInputTypeName(model, action, mutation) {
         return `${upcaseFirstLetter(model.singularName)}Input`;
     }
+    getInputTypeKey(model, action, mutation) {
+        return `${model.singularName}`;
+    }
     getNameForDestroy(model) {
         return `delete${upcaseFirstLetter(model.singularName)}`;
     }
@@ -15152,11 +15155,13 @@ class QueryBuilder {
                 // Ignore null fields, ids and connections
                 if (value && !skipFieldDueId && !isConnectionField) {
                     let typeOrValue = "";
+                    let inputTypeKey = key;
                     if (signature) {
                         if (isPlainObject(value) && value.__type) {
                             // Case 2 (User!)
                             typeOrValue =
                                 context.adapter.getInputTypeName(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name) + "!";
+                            inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name);
                         }
                         else if (value instanceof Array && field) {
                             const arg = QueryBuilder.findSchemaFieldForArgument(key, field, model, filter);
@@ -15479,7 +15484,7 @@ class Destroy extends Action {
         if (id) {
             const model = this.getModelFromState(state);
             const mutationName = Context.getInstance().adapter.getNameForDestroy(model);
-            const action = 'destroy';
+            const action = "destroy";
             const mockReturnValue = model.$mockHook("destroy", { id });
             if (mockReturnValue) {
                 await Store.insertData(mockReturnValue, dispatch);
@@ -15582,7 +15587,7 @@ class Mutate extends Action {
         if (name) {
             const context = Context.getInstance();
             const model = this.getModelFromState(state);
-            const action = 'mutate';
+            const action = "mutate";
             const mockReturnValue = model.$mockHook("mutate", {
                 name,
                 args: args || {}

@@ -27,6 +27,10 @@ export default class DefaultAdapter implements Adapter {
     return `${upcaseFirstLetter(model.singularName)}Input`;
   }
 
+  getInputTypeKey(model: Model, action?: string, mutation?: string): string {
+    return `${model.singularName}`;
+  }
+
   getNameForDestroy(model: Model): string {
     return `delete${upcaseFirstLetter(model.singularName)}`;
   }

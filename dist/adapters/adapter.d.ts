@@ -21,5 +21,6 @@ export default interface Adapter {
     getArgumentMode(): ArgumentMode;
     getFilterTypeName(model: Model): string;
     getInputTypeName(model: Model, action?: string, mutation?: string): string;
+    getInputTypeKey(model: Model, action?: string, mutation?: string): string;
     prepareSchemaTypeName(name: string): string;
 }

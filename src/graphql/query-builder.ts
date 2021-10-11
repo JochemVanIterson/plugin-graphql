@@ -221,6 +221,7 @@ export default class QueryBuilder {
         // Ignore null fields, ids and connections
         if (value && !skipFieldDueId && !isConnectionField) {
           let typeOrValue: any = "";
+          let inputTypeKey: any = key;
 
           if (signature) {
             if (isPlainObject(value) && value.__type) {
@@ -231,6 +232,11 @@ export default class QueryBuilder {
                   action,
                   field?.name
                 ) + "!";
+              inputTypeKey = context.adapter.getInputTypeKey(
+                context.getModel(value.__type),
+                action,
+                field?.name
+              );
             } else if (value instanceof Array && field) {
               const arg = QueryBuilder.findSchemaFieldForArgument(key, field, model, filter);
 
