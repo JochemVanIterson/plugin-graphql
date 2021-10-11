@@ -50,4 +50,18 @@ export default class DefaultAdapter implements Adapter {
   prepareSchemaTypeName(name: string): string {
     return upcaseFirstLetter(name);
   }
+
+  getCustomQuery(
+    model: Model,
+    action: string,
+    name: string,
+    params: string,
+    fields: string
+  ): string {
+    return `
+        ${name ? name : model.singularName}${params} {
+          ${fields}
+        }
+      `;
+  }
 }

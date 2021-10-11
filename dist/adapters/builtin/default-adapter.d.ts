@@ -13,4 +13,5 @@ export default class DefaultAdapter implements Adapter {
     getNameForPersist(model: Model): string;
     getNameForPush(model: Model): string;
     prepareSchemaTypeName(name: string): string;
+    getCustomQuery(model: Model, action: string, name: string, params: string, fields: string): string;
 }

@@ -14782,6 +14782,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.prepareSchemaTypeName = function (name) {
         return upcaseFirstLetter(name);
     };
+    DefaultAdapter.prototype.getCustomQuery = function (model, action, name, params, fields) {
+        return "\n        " + (name ? name : model.singularName) + params + " {\n          " + fields + "\n        }\n      ";
+    };
     return DefaultAdapter;
 }());
 
@@ -15055,7 +15058,8 @@ var QueryBuilder = /** @class */ (function () {
             }
         }
         else {
-            return "\n        " + (name ? name : model.singularName) + params + " {\n          " + fields + "\n        }\n      ";
+            var customQuery = context.adapter.getCustomQuery(model, action, name, params, fields);
+            return customQuery;
         }
     };
     /**

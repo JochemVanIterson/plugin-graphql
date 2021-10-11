@@ -31,4 +31,12 @@ export default interface Adapter {
   getInputTypeKey(model: Model, key: string, action?: string, mutation?: string): string;
 
   prepareSchemaTypeName(name: string): string;
+
+  getCustomQuery(
+    model: Model,
+    action: string,
+    name: string,
+    params: string,
+    fields: string
+  ): string;
 }

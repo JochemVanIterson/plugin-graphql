@@ -14719,6 +14719,13 @@ class DefaultAdapter {
     prepareSchemaTypeName(name) {
         return upcaseFirstLetter(name);
     }
+    getCustomQuery(model, action, name, params, fields) {
+        return `
+        ${name ? name : model.singularName}${params} {
+          ${fields}
+        }
+      `;
+    }
 }
 
 var introspectionQuery = `
@@ -15075,11 +15082,8 @@ class QueryBuilder {
             }
         }
         else {
-            return `
-        ${name ? name : model.singularName}${params} {
-          ${fields}
-        }
-      `;
+            const customQuery = context.adapter.getCustomQuery(model, action, name, params, fields);
+            return customQuery;
         }
     }
     /**

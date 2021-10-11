@@ -97,11 +97,8 @@ export default class QueryBuilder {
         `;
       }
     } else {
-      return `
-        ${name ? name : model.singularName}${params} {
-          ${fields}
-        }
-      `;
+      const customQuery = context.adapter.getCustomQuery(model, action, name, params, fields);
+      return customQuery;
     }
   }
 

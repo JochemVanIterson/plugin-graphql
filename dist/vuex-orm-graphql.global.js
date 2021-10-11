@@ -14781,6 +14781,9 @@ var VuexORMGraphQLPlugin = (function (exports) {
         DefaultAdapter.prototype.prepareSchemaTypeName = function (name) {
             return upcaseFirstLetter(name);
         };
+        DefaultAdapter.prototype.getCustomQuery = function (model, action, name, params, fields) {
+            return "\n        " + (name ? name : model.singularName) + params + " {\n          " + fields + "\n        }\n      ";
+        };
         return DefaultAdapter;
     }());
 
@@ -15054,7 +15057,8 @@ var VuexORMGraphQLPlugin = (function (exports) {
                 }
             }
             else {
-                return "\n        " + (name ? name : model.singularName) + params + " {\n          " + fields + "\n        }\n      ";
+                var customQuery = context.adapter.getCustomQuery(model, action, name, params, fields);
+                return customQuery;
             }
         };
         /**
