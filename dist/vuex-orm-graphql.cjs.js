@@ -14770,6 +14770,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.includeInputKey = function (model, key, action, mutation) {
         return true;
     };
+    DefaultAdapter.prototype.mapInputKeys = function (model, args, action, mutation) {
+        return args;
+    };
     DefaultAdapter.prototype.getNameForDestroy = function (model) {
         return "delete" + upcaseFirstLetter(model.singularName);
     };
@@ -15871,6 +15874,7 @@ var Push = /** @class */ (function (_super) {
                         _c.sent();
                         args = this.prepareArgs(args, data.id);
                         this.addRecordToArgs(args, model_1, data, action_1, mutationName_1);
+                        args = Context.getInstance().adapter.mapInputKeys(model_1, args, action_1, mutationName_1);
                         Object.keys(args)
                             .filter(function (key) { return !Context.getInstance().adapter.includeInputKey(model_1, key, action_1, mutationName_1); })
                             .forEach(function (key) { return delete args[key]; });

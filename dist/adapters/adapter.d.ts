@@ -1,4 +1,5 @@
 import Model from "../orm/model";
+import { Arguments } from "../support/interfaces";
 export declare enum ConnectionMode {
     AUTO = 0,
     PLAIN = 1,
@@ -23,6 +24,7 @@ export default interface Adapter {
     getInputTypeName(model: Model, action?: string, mutation?: string): string;
     getInputTypeKey(model: Model, key: string, action?: string, mutation?: string): string;
     includeInputKey(model: Model, key: string, action?: string, mutation?: string): boolean;
+    mapInputKeys(model: Model, args: Arguments, action?: string, mutation?: string): Arguments;
     prepareSchemaTypeName(name: string): string;
     getCustomQuery(model: Model, action: string, name: string, params: string, fields: string): string;
 }

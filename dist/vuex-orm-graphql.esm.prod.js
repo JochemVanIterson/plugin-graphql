@@ -14707,6 +14707,9 @@ class DefaultAdapter {
     includeInputKey(model, key, action, mutation) {
         return true;
     }
+    mapInputKeys(model, args, action, mutation) {
+        return args;
+    }
     getNameForDestroy(model) {
         return `delete${upcaseFirstLetter(model.singularName)}`;
     }
@@ -15726,6 +15729,7 @@ class Push extends Action {
             await Context.getInstance().loadSchema();
             args = this.prepareArgs(args, data.id);
             this.addRecordToArgs(args, model, data, action, mutationName);
+            args = Context.getInstance().adapter.mapInputKeys(model, args, action, mutationName);
             Object.keys(args)
                 .filter(key => !Context.getInstance().adapter.includeInputKey(model, key, action, mutationName))
                 .forEach(key => delete args[key]);
