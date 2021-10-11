@@ -262,13 +262,7 @@ export default class QueryBuilder {
             }
           } else {
             // Case 3 or 4
-            inputTypeKey = context.adapter.getInputTypeKey(
-              context.getModel(value.__type),
-              key,
-              action,
-              field?.name
-            );
-            typeOrValue = `$${inputTypeKey}`;
+            typeOrValue = `$${key}`;
           }
 
           returnValue = `${returnValue}${first ? "" : ", "}${(signature ? "$" : "") +

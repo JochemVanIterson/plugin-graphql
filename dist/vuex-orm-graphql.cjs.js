@@ -15168,8 +15168,7 @@ var QueryBuilder = /** @class */ (function () {
                     }
                     else {
                         // Case 3 or 4
-                        inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), key, action, field === null || field === void 0 ? void 0 : field.name);
-                        typeOrValue = "$" + inputTypeKey;
+                        typeOrValue = "$" + key;
                     }
                     returnValue = "" + returnValue + (first ? "" : ", ") + ((signature ? "$" : "") +
                         inputTypeKey) + ": " + typeOrValue;
