@@ -15187,7 +15187,8 @@ class QueryBuilder {
                     }
                     else {
                         // Case 3 or 4
-                        typeOrValue = `$${key}`;
+                        inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), key, action, field === null || field === void 0 ? void 0 : field.name);
+                        typeOrValue = `$${inputTypeKey}`;
                     }
                     returnValue = `${returnValue}${first ? "" : ", "}${(signature ? "$" : "") +
                         inputTypeKey}: ${typeOrValue}`;
