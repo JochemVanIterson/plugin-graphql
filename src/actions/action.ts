@@ -52,7 +52,9 @@ export default class Action {
         newData = Context.getInstance().adapter.parseQueryResult(model, newData, action, name);
 
         // IDs as String cause terrible issues, so we convert them to integers.
-        newData.id = toPrimaryKey(newData.id);
+        if (typeof newData.id === "string" && newData.id.includes(model.pluralName))
+          newData.id = newData.id;
+        else newData.id = toPrimaryKey(newData.id);
 
         const insertedData: Data = await Store.insertData(
           { [model.pluralName]: newData } as Data,
