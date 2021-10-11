@@ -15420,7 +15420,10 @@ var Action = /** @class */ (function () {
                         newData = newData[Object.keys(newData)[0]];
                         newData = Context.getInstance().adapter.parseQueryResult(model, newData, action, name);
                         // IDs as String cause terrible issues, so we convert them to integers.
-                        newData.id = toPrimaryKey(newData.id);
+                        if (typeof newData.id === "string" && newData.id.includes(model.pluralName))
+                            newData.id = newData.id;
+                        else
+                            newData.id = toPrimaryKey(newData.id);
                         return [4 /*yield*/, Store.insertData((_a = {}, _a[model.pluralName] = newData, _a), dispatch)];
                     case 3:
                         insertedData = _b.sent();

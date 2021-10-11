@@ -15402,7 +15402,10 @@ class Action {
                 newData = newData[Object.keys(newData)[0]];
                 newData = Context.getInstance().adapter.parseQueryResult(model, newData, action, name);
                 // IDs as String cause terrible issues, so we convert them to integers.
-                newData.id = toPrimaryKey(newData.id);
+                if (typeof newData.id === "string" && newData.id.includes(model.pluralName))
+                    newData.id = newData.id;
+                else
+                    newData.id = toPrimaryKey(newData.id);
                 const insertedData = await Store.insertData({ [model.pluralName]: newData }, dispatch);
                 // Try to find the record to return
                 const records = insertedData[model.pluralName];
