@@ -14763,8 +14763,8 @@ var VuexORMGraphQLPlugin = (function (exports) {
         DefaultAdapter.prototype.getInputTypeName = function (model, action, mutation) {
             return upcaseFirstLetter(model.singularName) + "Input";
         };
-        DefaultAdapter.prototype.getInputTypeKey = function (model, action, mutation) {
-            return "" + model.singularName;
+        DefaultAdapter.prototype.getInputTypeKey = function (model, key, action, mutation) {
+            return "" + key;
         };
         DefaultAdapter.prototype.getNameForDestroy = function (model) {
             return "delete" + upcaseFirstLetter(model.singularName);
@@ -15141,7 +15141,7 @@ var VuexORMGraphQLPlugin = (function (exports) {
                                 // Case 2 (User!)
                                 typeOrValue =
                                     context.adapter.getInputTypeName(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name) + "!";
-                                inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name);
+                                inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), key, action, field === null || field === void 0 ? void 0 : field.name);
                             }
                             else if (value instanceof Array && field) {
                                 var arg = QueryBuilder.findSchemaFieldForArgument(key, field, model, filter);
@@ -15170,7 +15170,7 @@ var VuexORMGraphQLPlugin = (function (exports) {
                             typeOrValue = "$" + key;
                         }
                         returnValue = "" + returnValue + (first ? "" : ", ") + ((signature ? "$" : "") +
-                            key) + ": " + typeOrValue;
+                            inputTypeKey) + ": " + typeOrValue;
                         first = false;
                     }
                 });

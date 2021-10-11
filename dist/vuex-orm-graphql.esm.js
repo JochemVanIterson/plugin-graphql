@@ -14701,8 +14701,8 @@ class DefaultAdapter {
     getInputTypeName(model, action, mutation) {
         return `${upcaseFirstLetter(model.singularName)}Input`;
     }
-    getInputTypeKey(model, action, mutation) {
-        return `${model.singularName}`;
+    getInputTypeKey(model, key, action, mutation) {
+        return `${key}`;
     }
     getNameForDestroy(model) {
         return `delete${upcaseFirstLetter(model.singularName)}`;
@@ -15161,7 +15161,7 @@ class QueryBuilder {
                             // Case 2 (User!)
                             typeOrValue =
                                 context.adapter.getInputTypeName(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name) + "!";
-                            inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), action, field === null || field === void 0 ? void 0 : field.name);
+                            inputTypeKey = context.adapter.getInputTypeKey(context.getModel(value.__type), key, action, field === null || field === void 0 ? void 0 : field.name);
                         }
                         else if (value instanceof Array && field) {
                             const arg = QueryBuilder.findSchemaFieldForArgument(key, field, model, filter);
@@ -15190,7 +15190,7 @@ class QueryBuilder {
                         typeOrValue = `$${key}`;
                     }
                     returnValue = `${returnValue}${first ? "" : ", "}${(signature ? "$" : "") +
-                        key}: ${typeOrValue}`;
+                        inputTypeKey}: ${typeOrValue}`;
                     first = false;
                 }
             });
