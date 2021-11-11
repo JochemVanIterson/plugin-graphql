@@ -14177,7 +14177,6 @@ class Transformer {
     static transformIncomingData(data, model, mutation = false, recursiveCall = false) {
         let result = {};
         const context = Context.getInstance();
-        data = context.adapter.transformIncomingData(data, model, mutation, recursiveCall);
         if (!recursiveCall) {
             context.logger.group("Transforming incoming data");
             context.logger.log("Raw data:", data);
@@ -14223,6 +14222,7 @@ class Transformer {
                 }
             });
         }
+        result = context.adapter.transformIncomingData(result, data, model, mutation, recursiveCall);
         if (!recursiveCall) {
             context.logger.log("Transformed data:", result);
             context.logger.groupEnd();
@@ -14736,8 +14736,8 @@ class DefaultAdapter {
     parseQueryResult(model, newData, action, name) {
         return newData;
     }
-    transformIncomingData(data, model, mutation = false, recursiveCall = false) {
-        return data;
+    transformIncomingData(result, data, model, mutation = false, recursiveCall = false) {
+        return result;
     }
 }
 

@@ -18,5 +18,5 @@ export default class DefaultAdapter implements Adapter {
     prepareSchemaTypeName(name: string): string;
     getCustomQuery(model: Model, action: string, name: string, params: string, fields: string): string;
     parseQueryResult(model: Model, newData: Data, action: string, name: string): Data;
-    transformIncomingData(data: Data | Array<Data>, model: Model, mutation?: boolean, recursiveCall?: boolean): Data | Data[];
+    transformIncomingData(result: Data | Array<Data>, data: Data | Array<Data>, model: Model, mutation?: boolean, recursiveCall?: boolean): Data | Data[];
 }
