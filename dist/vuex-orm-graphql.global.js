@@ -14202,6 +14202,7 @@ var VuexORMGraphQLPlugin = (function (exports) {
             if (recursiveCall === void 0) { recursiveCall = false; }
             var result = {};
             var context = Context.getInstance();
+            data = context.adapter.transformIncomingData(data, model, mutation, recursiveCall);
             if (!recursiveCall) {
                 context.logger.group("Transforming incoming data");
                 context.logger.log("Raw data:", data);
@@ -14792,6 +14793,9 @@ var VuexORMGraphQLPlugin = (function (exports) {
         };
         DefaultAdapter.prototype.parseQueryResult = function (model, newData, action, name) {
             return newData;
+        };
+        DefaultAdapter.prototype.transformIncomingData = function (data, model, mutation, recursiveCall) {
+            return data;
         };
         return DefaultAdapter;
     }());

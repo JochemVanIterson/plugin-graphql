@@ -75,4 +75,13 @@ export default class DefaultAdapter implements Adapter {
   parseQueryResult(model: Model, newData: Data, action: string, name: string): Data {
     return newData;
   }
+
+  transformIncomingData(
+    data: Data | Array<Data>,
+    model: Model,
+    mutation: boolean = false,
+    recursiveCall: boolean = false
+  ) {
+    return data;
+  }
 }
