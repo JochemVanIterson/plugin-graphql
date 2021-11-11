@@ -77,11 +77,12 @@ export default class DefaultAdapter implements Adapter {
   }
 
   transformIncomingData(
+    result: Data | Array<Data>,
     data: Data | Array<Data>,
     model: Model,
     mutation: boolean = false,
     recursiveCall: boolean = false
   ) {
-    return data;
+    return result;
   }
 }

@@ -46,6 +46,7 @@ export default interface Adapter {
   parseQueryResult(model: Model, newData: Data, action: string, name: string): Data;
 
   transformIncomingData(
+    result: Data | Array<Data>,
     data: Data | Array<Data>,
     model: Model,
     mutation: boolean,
