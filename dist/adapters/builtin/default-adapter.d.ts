@@ -1,6 +1,7 @@
 import Adapter, { ConnectionMode, ArgumentMode } from "../adapter";
 import Model from "../../orm/model";
 import { Data } from "../../support/interfaces";
+import Context from "../../common/context";
 export default class DefaultAdapter implements Adapter {
     getRootMutationName(): string;
     getRootQueryName(): string;
@@ -18,5 +19,5 @@ export default class DefaultAdapter implements Adapter {
     prepareSchemaTypeName(name: string): string;
     getCustomQuery(model: Model, action: string, name: string, params: string, fields: string): string;
     parseQueryResult(model: Model, newData: Data, action: string, name: string): Data;
-    transformIncomingData(result: Data | Array<Data>, data: Data | Array<Data>, model: Model, mutation?: boolean, recursiveCall?: boolean): Data | Data[];
+    transformIncomingData(data: Data | Array<Data>, model: Model, mutation?: boolean, recursiveCall?: boolean, context?: Context): Data | Data[];
 }

@@ -2,6 +2,7 @@ import Adapter, { ConnectionMode, ArgumentMode } from "../adapter";
 import Model from "../../orm/model";
 import { upcaseFirstLetter } from "../../support/utils";
 import { Data } from "../../support/interfaces";
+import Context from "../../common/context";
 
 export default class DefaultAdapter implements Adapter {
   getRootMutationName(): string {
@@ -77,12 +78,12 @@ export default class DefaultAdapter implements Adapter {
   }
 
   transformIncomingData(
-    result: Data | Array<Data>,
     data: Data | Array<Data>,
     model: Model,
     mutation: boolean = false,
-    recursiveCall: boolean = false
+    recursiveCall: boolean = false,
+    context: Context = Context.getInstance()
   ) {
-    return result;
+    return data;
   }
 }

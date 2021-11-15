@@ -1,3 +1,4 @@
+import Context from "../common/context";
 import Model from "../orm/model";
 import { Data } from "../support/interfaces";
 
@@ -46,10 +47,10 @@ export default interface Adapter {
   parseQueryResult(model: Model, newData: Data, action: string, name: string): Data;
 
   transformIncomingData(
-    result: Data | Array<Data>,
     data: Data | Array<Data>,
     model: Model,
     mutation: boolean,
-    recursiveCall: boolean
+    recursiveCall: boolean,
+    context: Context
   ): Data | Array<Data>;
 }

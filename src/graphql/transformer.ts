@@ -148,6 +148,8 @@ export default class Transformer {
       context.logger.log("Raw data:", data);
     }
 
+    data = context.adapter.transformIncomingData(data, model, mutation, recursiveCall, context);
+
     if (Array.isArray(data)) {
       result = data.map((d: any) => this.transformIncomingData(d, model, mutation, true));
     } else {
@@ -201,8 +203,6 @@ export default class Transformer {
         }
       });
     }
-
-    result = context.adapter.transformIncomingData(result, data, model, mutation, recursiveCall);
 
     if (!recursiveCall) {
       context.logger.log("Transformed data:", result);

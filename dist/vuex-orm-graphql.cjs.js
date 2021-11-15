@@ -14207,6 +14207,7 @@ var Transformer = /** @class */ (function () {
             context.logger.group("Transforming incoming data");
             context.logger.log("Raw data:", data);
         }
+        data = context.adapter.transformIncomingData(data, model, mutation, recursiveCall, context);
         if (Array.isArray(data)) {
             result = data.map(function (d) { return _this.transformIncomingData(d, model, mutation, true); });
         }
@@ -14250,7 +14251,6 @@ var Transformer = /** @class */ (function () {
                 }
             });
         }
-        result = context.adapter.transformIncomingData(result, data, model, mutation, recursiveCall);
         if (!recursiveCall) {
             context.logger.log("Transformed data:", result);
             context.logger.groupEnd();
@@ -14797,8 +14797,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.parseQueryResult = function (model, newData, action, name) {
         return newData;
     };
-    DefaultAdapter.prototype.transformIncomingData = function (result, data, model, mutation, recursiveCall) {
-        return result;
+    DefaultAdapter.prototype.transformIncomingData = function (data, model, mutation, recursiveCall, context) {
+        if (context === void 0) { context = Context.getInstance(); }
+        return data;
     };
     return DefaultAdapter;
 }());

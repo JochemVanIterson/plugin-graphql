@@ -14181,6 +14181,7 @@ class Transformer {
             context.logger.group("Transforming incoming data");
             context.logger.log("Raw data:", data);
         }
+        data = context.adapter.transformIncomingData(data, model, mutation, recursiveCall, context);
         if (Array.isArray(data)) {
             result = data.map((d) => this.transformIncomingData(d, model, mutation, true));
         }
@@ -14224,7 +14225,6 @@ class Transformer {
                 }
             });
         }
-        result = context.adapter.transformIncomingData(result, data, model, mutation, recursiveCall);
         if (!recursiveCall) {
             context.logger.log("Transformed data:", result);
             context.logger.groupEnd();
@@ -14738,8 +14738,8 @@ class DefaultAdapter {
     parseQueryResult(model, newData, action, name) {
         return newData;
     }
-    transformIncomingData(result, data, model, mutation = false, recursiveCall = false) {
-        return result;
+    transformIncomingData(data, model, mutation = false, recursiveCall = false, context = Context.getInstance()) {
+        return data;
     }
 }
 
