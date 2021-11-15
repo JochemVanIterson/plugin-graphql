@@ -14188,7 +14188,9 @@ class Transformer {
             Object.keys(data).forEach(key => {
                 if (data[key] !== undefined && data[key] !== null && key in data) {
                     if (isPlainObject(data[key])) {
-                        const localModel = context.getModel(key, true) || model;
+                        let localModel = context.getModel(key, true) || model;
+                        if (data[key].hasOwnProperty('__typename'))
+                            localModel = context.getModel(data[key].__typename, true);
                         if (data[key].nodes && context.connectionMode === ConnectionMode.NODES) {
                             result[pluralize$1(key)] = this.transformIncomingData(data[key].nodes, localModel, mutation, true);
                         }

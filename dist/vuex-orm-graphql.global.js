@@ -14214,6 +14214,8 @@ var VuexORMGraphQLPlugin = (function (exports) {
                     if (data[key] !== undefined && data[key] !== null && key in data) {
                         if (isPlainObject(data[key])) {
                             var localModel = context.getModel(key, true) || model;
+                            if (data[key].hasOwnProperty('__typename'))
+                                localModel = context.getModel(data[key].__typename, true);
                             if (data[key].nodes && context.connectionMode === exports.ConnectionMode.NODES) {
                                 result[pluralize$1(key)] = _this.transformIncomingData(data[key].nodes, localModel, mutation, true);
                             }
