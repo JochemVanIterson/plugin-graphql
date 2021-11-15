@@ -156,7 +156,7 @@ export default class Transformer {
           if (isPlainObject(data[key])) {
             let localModel: Model = context.getModel(key, true) || model;
             if (data[key].hasOwnProperty("__typename"))
-              localModel = context.getModel(data[key].__typename, true);
+              localModel = context.getModel(data[key].__typename, true) || model;
 
             if (data[key].nodes && context.connectionMode === ConnectionMode.NODES) {
               result[pluralize(key)] = this.transformIncomingData(
