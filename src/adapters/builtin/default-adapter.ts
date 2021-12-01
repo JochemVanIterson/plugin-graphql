@@ -86,4 +86,18 @@ export default class DefaultAdapter implements Adapter {
   ) {
     return data;
   }
+
+  transformOutgoingData(
+    model: Model,
+    data: Data,
+    read: boolean,
+    action: string,
+    mutationName: string,
+    context: Context,
+    whitelist?: Array<String>,
+    outgoingRecords?: Map<string, Array<string>>,
+    recursiveCall?: boolean
+  ): Data {
+    return data;
+  }
 }

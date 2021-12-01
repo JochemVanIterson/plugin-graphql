@@ -53,4 +53,16 @@ export default interface Adapter {
     recursiveCall: boolean,
     context: Context
   ): Data | Array<Data>;
+
+  transformOutgoingData(
+    model: Model,
+    data: Data,
+    read: boolean,
+    action: string,
+    mutationName: string,
+    context: Context,
+    whitelist?: Array<String>,
+    outgoingRecords?: Map<string, Array<string>>,
+    recursiveCall?: boolean
+  ): Data;
 }

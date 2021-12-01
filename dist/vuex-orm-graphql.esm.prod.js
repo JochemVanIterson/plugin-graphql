@@ -14119,6 +14119,7 @@ class Transformer {
             outgoingRecords = new Map();
         if (recursiveCall === undefined)
             recursiveCall = false;
+        data = context.adapter.transformOutgoingData(model, data, read, action, mutationName, context, whitelist, outgoingRecords, recursiveCall);
         Object.keys(data).forEach(key => {
             const value = data[key];
             const isRelation = model.getRelations().has(key);
@@ -14739,6 +14740,9 @@ class DefaultAdapter {
         return newData;
     }
     transformIncomingData(data, model, mutation = false, recursiveCall = false, context = Context.getInstance()) {
+        return data;
+    }
+    transformOutgoingData(model, data, read, action, mutationName, context, whitelist, outgoingRecords, recursiveCall) {
         return data;
     }
 }

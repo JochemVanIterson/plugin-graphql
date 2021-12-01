@@ -46,6 +46,18 @@ export default class Transformer {
     if (outgoingRecords === undefined) outgoingRecords = new Map<string, Array<string>>();
     if (recursiveCall === undefined) recursiveCall = false;
 
+    data = context.adapter.transformOutgoingData(
+      model,
+      data,
+      read,
+      action,
+      mutationName,
+      context,
+      whitelist,
+      outgoingRecords,
+      recursiveCall
+    );
+
     Object.keys(data).forEach(key => {
       const value = data[key];
 

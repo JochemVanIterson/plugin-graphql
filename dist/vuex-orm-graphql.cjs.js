@@ -14142,6 +14142,7 @@ var Transformer = /** @class */ (function () {
             outgoingRecords = new Map();
         if (recursiveCall === undefined)
             recursiveCall = false;
+        data = context.adapter.transformOutgoingData(model, data, read, action, mutationName, context, whitelist, outgoingRecords, recursiveCall);
         Object.keys(data).forEach(function (key) {
             var value = data[key];
             var isRelation = model.getRelations().has(key);
@@ -14799,6 +14800,9 @@ var DefaultAdapter = /** @class */ (function () {
     };
     DefaultAdapter.prototype.transformIncomingData = function (data, model, mutation, recursiveCall, context) {
         if (context === void 0) { context = Context.getInstance(); }
+        return data;
+    };
+    DefaultAdapter.prototype.transformOutgoingData = function (model, data, read, action, mutationName, context, whitelist, outgoingRecords, recursiveCall) {
         return data;
     };
     return DefaultAdapter;
