@@ -14150,7 +14150,7 @@ class Transformer {
                         returnValue[key] = value;
                     }
                 }
-                else if (typeof value === "object" && value.$id !== undefined) {
+                else if (value && typeof value === "object" && value.$id !== undefined) {
                     if (!relatedModel) {
                         relatedModel = context.getModel(value.$self().entity);
                     }

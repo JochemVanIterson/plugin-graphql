@@ -109,7 +109,7 @@ export default class Transformer {
             // Simple field, not a relation
             returnValue[key] = value;
           }
-        } else if (typeof value === "object" && value.$id !== undefined) {
+        } else if (value && typeof value === "object" && value.$id !== undefined) {
           if (!relatedModel) {
             relatedModel = context.getModel((value as ORMModel).$self().entity);
           }
