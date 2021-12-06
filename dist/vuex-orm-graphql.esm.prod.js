@@ -14248,6 +14248,15 @@ class Transformer {
      * @returns {boolean}
      */
     static shouldIncludeOutgoingField(forFilter, fieldName, value, model, action, mutationName, whitelist) {
+        function getForeignKey(fieldname) {
+            const field = model.fields.get(fieldname);
+            return (field === null || field === void 0 ? void 0 : field.foreignKey) || fieldname;
+        }
+        function getFieldNullable(fieldname) {
+            const field = model.fields.get(fieldname);
+            // @ts-ignore: Property 'isNullable' does not exist on type 'Field'.
+            return field === null || field === void 0 ? void 0 : field.isNullable;
+        }
         // Always add fields on the whitelist.
         if (whitelist && whitelist.includes(fieldName))
             return true;
@@ -14258,7 +14267,7 @@ class Transformer {
         if (fieldName === "pivot")
             return false;
         // Ignore empty fields
-        if (value === null || value === undefined)
+        if (!getFieldNullable(getForeignKey(fieldName)) && (value === null || value === undefined))
             return false;
         // Ignore fields that don't exist in the input type
         if (!this.inputTypeContainsField(model, fieldName, action, mutationName))
