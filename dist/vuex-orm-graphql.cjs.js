@@ -14814,6 +14814,9 @@ var DefaultAdapter = /** @class */ (function () {
     DefaultAdapter.prototype.transformOutgoingData = function (model, data, read, action, mutationName, context, whitelist, outgoingRecords, recursiveCall) {
         return data;
     };
+    DefaultAdapter.prototype.customFilterBuilder = function (returnValue) {
+        return '';
+    };
     return DefaultAdapter;
 }());
 
@@ -15212,10 +15215,15 @@ var QueryBuilder = /** @class */ (function () {
                 }
             });
             if (!first) {
-                if (!signature &&
-                    filter &&
-                    Context.getInstance().adapter.getArgumentMode() === exports.ArgumentMode.TYPE) {
-                    returnValue = "filter: { " + returnValue + " }";
+                var customFilter = Context.getInstance().adapter.customFilterBuilder(returnValue);
+                if (customFilter)
+                    returnValue = customFilter;
+                else {
+                    if (!signature &&
+                        filter &&
+                        Context.getInstance().adapter.getArgumentMode() === exports.ArgumentMode.TYPE) {
+                        returnValue = "filter: { " + returnValue + " }";
+                    }
                 }
                 returnValue = "(" + returnValue + ")";
             }

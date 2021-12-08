@@ -285,12 +285,16 @@ export default class QueryBuilder {
       });
 
       if (!first) {
-        if (
-          !signature &&
-          filter &&
-          Context.getInstance().adapter.getArgumentMode() === ArgumentMode.TYPE
-        ) {
-          returnValue = `filter: { ${returnValue} }`;
+        const customFilter = Context.getInstance().adapter.customFilterBuilder(returnValue);
+        if (customFilter) returnValue = customFilter;
+        else {
+          if (
+            !signature &&
+            filter &&
+            Context.getInstance().adapter.getArgumentMode() === ArgumentMode.TYPE
+          ) {
+            returnValue = `filter: { ${returnValue} }`;
+          }
         }
 
         returnValue = `(${returnValue})`;

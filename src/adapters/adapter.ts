@@ -65,4 +65,6 @@ export default interface Adapter {
     outgoingRecords?: Map<string, Array<string>>,
     recursiveCall?: boolean
   ): Data;
+
+  customFilterBuilder(returnValue: string): string;
 }

@@ -100,4 +100,8 @@ export default class DefaultAdapter implements Adapter {
   ): Data {
     return data;
   }
+
+  customFilterBuilder(returnValue: string): string {
+    return "";
+  }
 }

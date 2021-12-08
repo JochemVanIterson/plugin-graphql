@@ -14754,6 +14754,9 @@ class DefaultAdapter {
     transformOutgoingData(model, data, read, action, mutationName, context, whitelist, outgoingRecords, recursiveCall) {
         return data;
     }
+    customFilterBuilder(returnValue) {
+        return '';
+    }
 }
 
 var introspectionQuery = `
@@ -15230,10 +15233,15 @@ class QueryBuilder {
                 }
             });
             if (!first) {
-                if (!signature &&
-                    filter &&
-                    Context.getInstance().adapter.getArgumentMode() === ArgumentMode.TYPE) {
-                    returnValue = `filter: { ${returnValue} }`;
+                const customFilter = Context.getInstance().adapter.customFilterBuilder(returnValue);
+                if (customFilter)
+                    returnValue = customFilter;
+                else {
+                    if (!signature &&
+                        filter &&
+                        Context.getInstance().adapter.getArgumentMode() === ArgumentMode.TYPE) {
+                        returnValue = `filter: { ${returnValue} }`;
+                    }
                 }
                 returnValue = `(${returnValue})`;
             }
