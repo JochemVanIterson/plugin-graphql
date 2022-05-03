@@ -104,4 +104,13 @@ export default class DefaultAdapter implements Adapter {
   customFilterBuilder(returnValue: string): string {
     return "";
   }
+  ignoreQueryField(
+    relatedModel: null | Model,
+    name: string,
+    model: null | Model,
+    path: Array<string>,
+    action: string
+  ): boolean {
+    return false;
+  }
 }

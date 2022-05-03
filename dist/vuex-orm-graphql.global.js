@@ -14814,7 +14814,10 @@ var VuexORMGraphQLPlugin = (function (exports) {
             return data;
         };
         DefaultAdapter.prototype.customFilterBuilder = function (returnValue) {
-            return '';
+            return "";
+        };
+        DefaultAdapter.prototype.ignoreQueryField = function (relatedModel, name, model, path, action) {
+            return false;
         };
         return DefaultAdapter;
     }());
@@ -15324,8 +15327,9 @@ var VuexORMGraphQLPlugin = (function (exports) {
                 var ignore = referencesItSelf
                     ? referencesItSelf > 5
                     : path.includes(relatedModel.singularName);
+                var ignoreQueryField = context.adapter.ignoreQueryField(relatedModel, name, model, path, action);
                 // console.log(`-----> Will ${ignore ? '' : 'not'} ignore ${model.singularName}.${name}, path: ${path.join('.')}`);
-                if (model.shouldEagerLoadRelation(name, field, relatedModel) && !ignore) {
+                if (model.shouldEagerLoadRelation(name, field, relatedModel) && !ignore && !ignoreQueryField) {
                     var newPath = path.slice(0);
                     newPath.push(relatedModel.singularName);
                     relationQueries.push(_this.buildField(relatedModel, action, Model.isConnection(field), undefined, newPath, name, false));

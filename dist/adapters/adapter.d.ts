@@ -32,4 +32,5 @@ export default interface Adapter {
     transformIncomingData(data: Data | Array<Data>, model: Model, mutation: boolean, recursiveCall: boolean, context: Context): Data | Array<Data>;
     transformOutgoingData(model: Model, data: Data, read: boolean, action: string, mutationName: string, context: Context, whitelist?: Array<String>, outgoingRecords?: Map<string, Array<string>>, recursiveCall?: boolean): Data;
     customFilterBuilder(returnValue: string): string;
+    ignoreQueryField(relatedModel: null | Model, name: string, model: null | Model, path: Array<string>, action: string): boolean;
 }

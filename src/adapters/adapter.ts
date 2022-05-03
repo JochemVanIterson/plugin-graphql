@@ -67,4 +67,11 @@ export default interface Adapter {
   ): Data;
 
   customFilterBuilder(returnValue: string): string;
+  ignoreQueryField(
+    relatedModel: null | Model,
+    name: string,
+    model: null | Model,
+    path: Array<string>,
+    action: string
+  ): boolean;
 }
